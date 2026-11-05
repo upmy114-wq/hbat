@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AAIB - البنك العربي الأفريقي الدولي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+      overflow-x: hidden;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 1000;
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      border: none;
+      background: none;
+      order: -1;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 3px;
+      background: #1b5e3b;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    .hamburger:hover span {
+      background: #c8a84e;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.2;
+    }
+
+    .logo-text .ar {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1b5e3b;
+    }
+
+    .logo-text .en {
+      font-size: 11px;
+      font-weight: 600;
+      color: #c8a84e;
+      letter-spacing: 0.5px;
+    }
+
+    .header-spacer {
+      width: 42px;
+    }
+
+    /* ===== MOBILE NAV ===== */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1100;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s;
+    }
+
+    .nav-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 280px;
+      height: 100%;
+      background: #1b5e3b;
+      z-index: 1200;
+      transition: 0.35s ease;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mobile-nav.active {
+      right: 0;
+    }
+
+    .nav-close {
+      align-self: flex-start;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 28px;
+      cursor: pointer;
+      margin-bottom: 24px;
+    }
+
+    .mobile-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 12px 16px;
+      border-radius: 8px;
+      transition: 0.2s;
+    }
+
+    .mobile-nav a:hover {
+      background: rgba(200,168,78,0.2);
+      color: #c8a84e;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      margin-top: 72px;
+      background: linear-gradient(135deg, #1b5e3b 0%, #0d3d25 60%, #0a2e1c 100%);
+      padding: 60px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 30% 50%, rgba(200,168,78,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .hero h1 span {
+      color: #c8a84e;
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.8);
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      line-height: 1.8;
+    }
+
+    .gold-line {
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, #c8a84e, #e8d48b);
+      margin: 20px auto 0;
+      border-radius: 2px;
+      position: relative;
+    }
+
+    /* ===== CARDS SECTION ===== */
+    .cards-section {
+      padding: 48px 16px 64px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1b5e3b;
+      margin-bottom: 8px;
+    }
+
+    .section-title p {
+      color: #666;
+      font-size: 15px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(27,94,59,0.15);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-body {
+      padding: 20px 24px 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-body h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1b5e3b;
+      text-align: center;
+    }
+
+    .card-body p {
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+      line-height: 1.7;
+      flex: 1;
+    }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #1b5e3b, #267a4d);
+      color: #fff;
+      border: none;
+      padding: 12px 32px;
+      border-radius: 50px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+      margin-top: auto;
+    }
+
+    .btn-cta:hover {
+      background: linear-gradient(135deg, #c8a84e, #b8943e);
+      transform: scale(1.04);
+    }
+
+    .btn-cta svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      transition: transform 0.3s;
+    }
+
+    .btn-cta:hover svg {
+      transform: translateX(-4px);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: #1b5e3b;
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .footer p {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+    }
+
+    .footer .gold {
+      color: #c8a84e;
+      font-weight: 700;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 24px;
+      }
+
+      .hero p {
+        font-size: 14px;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .card-img {
+        height: 200px;
+      }
+
+      .section-title h2 {
+        font-size: 22px;
+      }
+
+      .logo-text .ar {
+        font-size: 12px;
+      }
+
+      .logo-text .en {
+        font-size: 10px;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .hamburger {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <button class="hamburger" onclick="toggleNav()" aria-label="القائمة">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <a href="#" class="logo">
+      <svg class="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" fill="#1b5e3b"/>
+        <text x="50" y="42" text-anchor="middle" fill="#c8a84e" font-size="22" font-weight="bold" font-family="Arial">AAIB</text>
+        <path d="M25 58 Q35 52 50 56 Q65 60 75 54" stroke="#c8a84e" stroke-width="2" fill="none"/>
+        <path d="M30 64 Q42 58 50 61 Q58 64 70 59" stroke="#c8a84e" stroke-width="1.5" fill="none" opacity="0.6"/>
+      </svg>
+      <div class="logo-text">
+        <span class="ar">البنك العربي الأفريقي الدولي</span>
+        <span class="en">Arab African International Bank</span>
+      </div>
+    </a>
+
+    <div class="header-spacer"></div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <div class="nav-overlay" onclick="toggleNav()"></div>
+  <nav class="mobile-nav">
+    <button class="nav-close" onclick="toggleNav()">&times;</button>
+    <a href="#">الرئيسية</a>
+    <a href="#">خدماتنا</a>
+    <a href="#">البطاقات</a>
+    <a href="#">جوائز AAIB</a>
+    <a href="#">تواصل معنا</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>مرحباً بك في <span>AAIB</span></h1>
+    <p>البنك العربي الأفريقي الدولي — شريكك المالي الموثوق لحلول مصرفية ذكية وآمنة</p>
+    <div class="gold-line"></div>
+  </section>
+
+  <!-- CARDS -->
+  <section class="cards-section">
+    <div class="section-title">
+      <h2>خدماتنا المميزة</h2>
+      <p>اكتشف أحدث الحلول المصرفية من البنك العربي الأفريقي الدولي</p>
+    </div>
+
+    <div class="cards-grid">
+
+      <!-- Card 1: Awards Booth -->
+      <div class="card">
+        <img src="images/awards-booth.jpg" alt="جوائز AAIB" class="card-img">
+        <div class="card-body">
+          <h3>جوائز AAIB Awards</h3>
+          <p>تكريم التميز والابتكار في القطاع المصرفي — جوائز البنك العربي الأفريقي الدولي</p>
+          <a href="#" class="btn-cta">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            احصل عليها الآن
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 2: Smartwatch -->
+      <div class="card">
+        <img src="images/smartwatch.jpg" alt="ساعة AAIB الذكية" class="card-img">
+        <div class="card-body">
+          <h3>الدفع بالساعة الذكية</h3>
+          <p>اربط بطاقتك بساعتك الذكية واستمتع بمدفوعات سريعة وآمنة أينما كنت</p>
+          <a href="#" class="btn-cta">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            احصل عليها الآن
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 3: Smart Payments -->
+      <div class="card">
+        <img src="images/smart-payments.jpg" alt="مدفوعات ذكية وآمنة" class="card-img">
+        <div class="card-body">
+          <h3>بطاقات مصرفية متنوعة</h3>
+          <p>تمتع بمدفوعات ذكية وآمنة مع مجموعة بطاقات AAIB — ماستركارد، فيزا جولد، وفيزا كريديت</p>
+          <a href="#" class="btn-cta">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            احصل عليها الآن
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>&copy; 2024 <span class="gold">AAIB</span> — البنك العربي الأفريقي الدولي. جميع الحقوق محفوظة.</p>
+  </footer>
+
+  <script>
+    function toggleNav() {
+      document.querySelector('.mobile-nav').classList.toggle('active');
+      document.querySelector('.nav-overlay').classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>
